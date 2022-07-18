@@ -1,6 +1,7 @@
 const express = require('express');
-require('./db/mongoose');
+const mongoose = require('./db/mongoose');
 const User = require('./models/User');
+const Task = require('./models/Task');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -9,11 +10,33 @@ app.use(express.json())
 
 app.listen(port, () => console.log("Listening to server connection at port:" + port));
 
-app.get('/users', (req, res) => {
-    // res.send("Retrieve all user data in the database");
-    res.send(req.body)
+app.post('/users', (req, res) => {
+    const user = new User(req.body);
+    
+    user.save().then( result => {
+        console.log(result)
+        res.status(201).send(user);
+    }).catch(err => {
+        res.status(400).send(err.message);
+    })
 })
 
-app.post('/users', (req, res) => {
-    res.send(req.body)
+app.get('/users', (req, res) => {
+    User.find({}).then( result => {
+        res.send(result)
+    }).catch(err => res.status(500).send(err))
+})
+
+app.post('/tasks', (req, res) => {
+    const task = new Task(req.body);
+
+    task.save().then(result => {
+        res.status(201).send(result)
+    }).catch(err => res.status(400).send(err))
+})
+
+app.get('/tasks', (req, res) => {
+    Task.find({}).then( result => {
+        res.send(result)
+    }).catch(err => res.status(500).send(err))
 })

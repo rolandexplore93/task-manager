@@ -6,7 +6,7 @@ const User = mongoose.model('User', {
         type: String,
         required: true,
         trim: true,
-        default: "Anonymous Coder"
+        default: "Anonymous Coder",
     },
     age: {
         type: Number,
@@ -32,7 +32,7 @@ const User = mongoose.model('User', {
         minLength: 7,
         trim: true,
         validate(value){
-            if (value.toLowerCase().includes('password')) throw new Error('Password cannot contain "password"') 
+            if (value.toLowerCase().includes('password')) throw new Error('Password cannot contain "password"')
         }
     }
 })
