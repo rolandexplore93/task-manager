@@ -23,9 +23,9 @@ const database = MongoClient.connect(connectionURL, { useNewUrlParser: true }, (
     //     console.log(entryresult)
     // })
 
-    db.findOne({name: "RollyJS"})
-        .then(result => console.log(result))
-        .catch(error => console.log("Error: " + error))
+    // db.findOne({name: "RollyJS"})
+    //     .then(result => console.log(result))
+    //     .catch(error => console.log("Error: " + error))
 
     // db.insertMany([
     //     {
@@ -48,5 +48,22 @@ const database = MongoClient.connect(connectionURL, { useNewUrlParser: true }, (
     //     console.log(result)
     // })
 })
+
+// Promise chaining and chaining multiple callback function
+const add = (a, b) => {
+    
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(a + b)
+        }, 1000);
+    })
+}
+
+add(1, 2).then(sum => {
+    console.log(sum)
+    return add(sum, 10)
+}).then(sum2 => {
+    console.log(sum2)
+}).catch(e => console.log(e))
 
 

@@ -27,6 +27,18 @@ app.get('/users', (req, res) => {
     }).catch(err => res.status(500).send(err))
 })
 
+app.get('/users/:id', (req, res) => {
+    const _id = req.params.id
+
+    User.findById(_id).then(user => {
+        if (!user) {
+            res.status(404).send("User ID not found!")
+            return
+        }
+        res.send(user)
+    }).catch(err => res.status(500).send("Invalid User ID"))
+})
+
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
 
@@ -39,4 +51,16 @@ app.get('/tasks', (req, res) => {
     Task.find({}).then( result => {
         res.send(result)
     }).catch(err => res.status(500).send(err))
+})
+
+app.get('/tasks/:id', (req, res) => {
+    const _id = req.params.id;
+    
+    Task.findById(_id).then(task => {
+        if (!task) {
+            res.status(404).send("Task ID not found!")
+            return
+        }
+        res.send(task)
+    }).catch(err => res.status(500).send("Invalid Task ID"))
 })
