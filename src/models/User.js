@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const validator = require('validator')
+const validator = require('validator');
+const Schema = mongoose.Schema;
 
-const User = mongoose.model('User', {
+const User = mongoose.model('User', new Schema({
     name: {
         type: String,
         required: true,
@@ -35,6 +36,6 @@ const User = mongoose.model('User', {
             if (value.toLowerCase().includes('password')) throw new Error('Password cannot contain "password"')
         }
     }
-})
+},  {timestamps: true}));
 
 module.exports = User
