@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router()
 const Task = require('../models/Task');
 
-// route handlers for tasks
 router.post('/tasks', async (req, res) => {
     const task = new Task(req.body);
 
