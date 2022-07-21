@@ -44,4 +44,4 @@ const authorization = () => {
     const isVerified = jwt.verify(token, 'rollyJS')
     console.log(isVerified)
 }
-authorization()
+// authorization()

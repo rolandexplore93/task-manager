@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 const userSchema = new Schema({
     name: {
@@ -37,10 +38,26 @@ const userSchema = new Schema({
         validate(value){
             if (value.toLowerCase().includes('password')) throw new Error('Password cannot contain "password"')
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 },  {timestamps: true})
 
-// custom mongoose schema function
+// custom mongoose scheme methods to genrate auth token for user to login
+userSchema.methods.generateAuthToken = async function(){
+    // const user = this
+    const token = await jwt.sign(this._id.toString(), "rollyJS");
+
+    this.tokens = this.tokens.concat({ token })
+    await this.save()
+    return token
+}
+
+// custom mongoose schema using statics method to confirm user email and password
 userSchema.statics.findByCredentials = async function(email, password){
     const user = await User.findOne({email});
     if (!user) throw new Error("Incorrect Email address");
