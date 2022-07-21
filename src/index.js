@@ -3,6 +3,8 @@ const mongoose = require("./db/mongoose");
 const userRouter = require("./routes/user");
 const taskRouter = require("./routes/task");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -29,3 +31,17 @@ app.listen(port, () =>
 //     console.log("hashedPasswordSalt:" + hashedPasswordSalt)
 // }
 // pwd()
+
+// JWT - to create authorization and sign in
+const authorization = () => {
+    // create jwt token
+    const token = jwt.sign({_id: "1234567"}, "rollyJS", {
+        expiresIn: "5 seconds"
+    });
+    console.log(token)
+
+    // verify jwt token
+    const isVerified = jwt.verify(token, 'rollyJS')
+    console.log(isVerified)
+}
+authorization()
