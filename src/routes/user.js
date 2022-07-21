@@ -24,6 +24,31 @@ router.post('/users/login', async (req, res) => {
     }catch(err){res.status(400).send(err)}
 })
 
+router.post('/users/logout', auth, async (req, res, next) => {
+    // auth token is needed to logout 
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+
+        await req.user.save()
+        res.send("Logout successfully")
+    }catch(e){
+        res.status(500).send()
+    }
+})
+
+router.post('/users/logoutAll', auth, async (req, res, next) => {
+    // auth token is needed to logout 
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.status(200).send("Logout on all devices")
+    }catch(e){
+        res.status(500).send()
+    }
+})
+
 router.get('/users', async (req, res) => {
 
     try {
