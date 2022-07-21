@@ -21,6 +21,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
         trim: true,
         lowercase: true,
         default: "anonymous@coder.com",
@@ -39,6 +40,19 @@ const userSchema = new Schema({
     }
 },  {timestamps: true})
 
+// custom mongoose schema function
+userSchema.statics.findByCredentials = async function(email, password){
+    const user = await User.findOne({email});
+    if (!user) throw new Error("Incorrect Email address");
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) throw new Errow("Unable to login! Password is incorrect");
+
+    return user
+}
+
+// hash password before saving to database
 userSchema.pre('save', async function(next){
     const user = this;
     const salt = await bcrypt.genSalt();
