@@ -9,6 +9,16 @@ const jwt = require('jsonwebtoken')
 const app = express();
 const port = process.env.PORT || 5000;
 
+// app.use((req, res, next) => {
+//     console.log(req.method, req.path)
+
+//     next()
+// })
+
+// app.use((req, res, next) => {
+//     res.status(503).send("Site is currently under maintenance. Please, check back later")
+// })
+
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
