@@ -47,7 +47,10 @@ router.patch('/users/:id', async (req, res) => {
     if (!isValidUpdate) return res.status(400).send(`Error: One or more properties is invalid... \n Accepted property fields are ${allowUpdates.join(', ')}`)
 
     try {
-        const user = await User.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true, timestamps: true });
+        // const user = await User.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true, timestamps: true });
+        const user = await User.findById(_id);
+        updates.forEach((update) => user[update] = req.body[update]);
+        await user.save();
 
         if (!user) return res.status(404).send("User not found!")
         res.send(user)

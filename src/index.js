@@ -16,16 +16,16 @@ app.listen(port, () =>
 );
 
 
-const pwd = async () => {
-    const myPassword = "orobola1234567";
-    const salt = await bcrypt.genSalt();
-    console.log('Salt: ' + salt);
-    const hashedPassword = await bcrypt.hash(myPassword, 8)
-    const hashedPasswordSalt = await bcrypt.hash(myPassword, salt)
+// WAYS TO HASH PASSWORD
+// const pwd = async () => {
+//     const myPassword = "orobola1234567";
+//     const salt = await bcrypt.genSalt();
+//     console.log('Salt: ' + salt);
+//     const hashedPassword = await bcrypt.hash(myPassword, 8)
+//     const hashedPasswordSalt = await bcrypt.hash(myPassword, salt)
 
-    console.log(myPassword)
-    console.log("hashedPassword:" + hashedPassword)
-    console.log("hashedPasswordSalt:" + hashedPasswordSalt)
-}
-
+//     console.log(myPassword)
+//     console.log("hashedPassword:" + hashedPassword)
+//     console.log("hashedPasswordSalt:" + hashedPasswordSalt)
+// }
 // pwd()
