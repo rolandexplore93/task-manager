@@ -47,6 +47,13 @@ const userSchema = new Schema({
     }]
 },  {timestamps: true})
 
+// virtual relationship
+userSchema.virtual('tasks', {
+    ref: "task",
+    localField: "_id",
+    foreignField: "owner"
+})
+
 // hide private data when user login
 userSchema.methods.toJSON = async function(){
     const userObject = this.toObject();
@@ -58,11 +65,11 @@ userSchema.methods.toJSON = async function(){
 
 // custom mongoose scheme methods to genrate auth token for user to login
 userSchema.methods.generateAuthToken = async function(){
-    // const user = this
-    const token = await jwt.sign(this._id.toString(), "rollyJS");
+    const user = this
+    const token = await jwt.sign(user._id.toString(), "rollyJS");
 
-    this.tokens = this.tokens.concat({ token })
-    await this.save()
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
     return token
 }
 

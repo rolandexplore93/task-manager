@@ -3,7 +3,9 @@ const mongoose = require("./db/mongoose");
 const userRouter = require("./routes/user");
 const taskRouter = require("./routes/task");
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const User = require("./models/User");
+const Task = require("./models/Task");
 
 
 const app = express();
@@ -69,3 +71,27 @@ pet.toJSON = function(){
 
 // pet.toJSON()
 // console.log(JSON.stringify(pet))
+
+// Foreign key and relationship between collections
+const relationship = async () => {
+    // Get the id of a user who created a task 
+    // Get the data of a user who created a task 
+    const task = await Task.findById('62da71e2ec331a3ccb555232');
+    const userData = await task.populate('owner')
+    const userId = await task.populated('owner').toString()
+    // console.log(userId)
+    // console.log(userData.owner)
+
+
+    // Get the id of the tasks created by a user 
+    // Get all the tasks created by a user
+    const user =  await User.findById('62daa1f753d66b7fd370af0e')
+    const taskData = await user.populate('tasks')
+
+    console.log(taskData.tasks)
+    console.log(taskData.tasks[0]._id)
+    console.log(taskData.tasks[1]._id)
+
+}
+
+relationship()

@@ -11,7 +11,15 @@ const Task = mongoose.model('task', new Schema({
     completed: {
         type: Boolean,
         default: false
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
-}, {timestamps: true}))
+}, {
+    timestamps: true,
+    // toJSON: {virtuals: true}
+}))
 
 module.exports = Task
