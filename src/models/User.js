@@ -47,6 +47,15 @@ const userSchema = new Schema({
     }]
 },  {timestamps: true})
 
+// hide private data when user login
+userSchema.methods.toJSON = async function(){
+    const userObject = this.toObject();
+
+    delete userObject.password;
+    delete userObject.tokens;
+    return userObject
+}
+
 // custom mongoose scheme methods to genrate auth token for user to login
 userSchema.methods.generateAuthToken = async function(){
     // const user = this

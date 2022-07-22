@@ -55,3 +55,17 @@ const authorization = () => {
     console.log(isVerified)
 }
 // authorization()
+
+// toJSON method
+const pet = {
+    name: "Dude",
+    specie: "German Shephard"
+}
+
+pet.toJSON = function(){
+    console.log(this)
+    return this
+}
+
+// pet.toJSON()
+// console.log(JSON.stringify(pet))
