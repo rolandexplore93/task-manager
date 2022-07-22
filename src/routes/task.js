@@ -30,11 +30,28 @@ router.get('/tasks', async (req, res) => {
     }
 })
 
-router.get('/tasks/:id', async (req, res) => {
+// tasks created by a specific user id
+router.get('/tasks/me', auth, async (req, res) => {
+
+    try {
+        // const tasks = await Task.find({owner: req.user._id})  // use this or populate() approach below
+        const tasks = await req.user.populate('tasks')
+        console.log(tasks.tasks)
+
+        res.send(tasks)
+    } catch(e) {
+        res.status(500).send(e)
+    }
+})
+
+
+
+router.get('/tasks/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
-        const task = await Task.findById(_id);
+        // const task = await Task.findById(_id);  // before auth
+        const task = await Task.findOne({ _id, owner: req.user._id })   // after auth
 
         if (!task) {
             res.status(404).send("Task ID not found!")
@@ -47,7 +64,7 @@ router.get('/tasks/:id', async (req, res) => {
 })
 
 
-router.patch("/tasks/:id", async (req, res) => {
+router.patch("/tasks/:id", auth, async (req, res) => {
     const _id = req.params.id;
     const allowUpdates = ["description", "completed"];
     const updates = Object.keys(req.body);
@@ -57,22 +74,26 @@ router.patch("/tasks/:id", async (req, res) => {
 
     try {
         // const task = await Task.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true, timestamps: true });
-        const task = await Task.findById(_id);
+        // const task = await Task.findById(_id);
+        const task = await Task.findOne({ _id, owner: req.user._id})
+        
+        if (!task) return res.status(404).send("Task ID not found!")
+        
         updates.forEach((update) => task[update] = req.body[update]);
         await task.save();
-
-        if (!task) return res.status(404).send("Task ID not found!")
         res.send(task)
+
     } catch(e) {
-        console.log("error:" + e)
+        console.log("error: " + e)
         res.status(400).send(e)}
 })
 
-router.delete("/tasks/:id", async (req, res) => {
+router.delete("/tasks/:id", auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
-        const task = await Task.findByIdAndDelete(_id);
+        // const task = await Task.findByIdAndDelete(_id);
+        const task = await Task.findOneAndDelete({ _id, owner: req.user._id});
 
         if (!task) return res.status(404).send("User not found!")
         res.send(`User with the data below has been deleted from database \n ${task}`)

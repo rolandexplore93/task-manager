@@ -94,4 +94,4 @@ const relationship = async () => {
 
 }
 
-relationship()
+// relationship()
