@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const Task = mongoose.model('task', new Schema({
+const taskSchema = new Schema({
     description: {
         type: String,
         required: true,
@@ -19,7 +19,8 @@ const Task = mongoose.model('task', new Schema({
     }
 }, {
     timestamps: true,
-    // toJSON: {virtuals: true}
-}))
+})
+
+const Task = mongoose.model('task', taskSchema);
 
 module.exports = Task
