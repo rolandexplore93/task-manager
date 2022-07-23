@@ -28,16 +28,24 @@ router.get('/tasks', async (req, res) => {
     } catch(e) {
         res.status(500).send(e)
     }
-})
+});
 
 // tasks created by a specific user id
 router.get('/tasks/me', auth, async (req, res) => {
-    console.log(req.query);
     const match = {};
-    console.log(match)
+    const sort = {};
+    console.log(req.query.sortBy)
 
     if(req.query.completed){
         match.completed = req.query.completed === "true"
+    }
+
+    if(req.query.sortBy){
+        const parts = req.query.sortBy.split(':');
+        console.log(parts[0])
+        console.log(parts[1])
+        sort[parts[0]] = [parts[1]] === 'desc' ? -1 : 1;
+        //above translate to=> sort[completed] = desc === 'desc' ? -1 : 1;
     }
 
     try {
@@ -45,7 +53,13 @@ router.get('/tasks/me', auth, async (req, res) => {
         // const tasks = await req.user.populate('tasks')
         const tasks = await req.user.populate({
             path: 'tasks',
-            match
+            match,
+            options: {
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                // sort: { description: -1}   //hardcoded from backend
+                sort
+            }
         })
         console.log(tasks.tasks)
 
