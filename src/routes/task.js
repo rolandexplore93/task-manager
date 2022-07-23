@@ -21,7 +21,7 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 router.get('/tasks', async (req, res) => {
-
+    
     try {
         const tasks = await Task.find({});
         res.send(tasks)
@@ -32,10 +32,21 @@ router.get('/tasks', async (req, res) => {
 
 // tasks created by a specific user id
 router.get('/tasks/me', auth, async (req, res) => {
+    console.log(req.query);
+    const match = {};
+    console.log(match)
+
+    if(req.query.completed){
+        match.completed = req.query.completed === "true"
+    }
 
     try {
         // const tasks = await Task.find({owner: req.user._id})  // use this or populate() approach below
-        const tasks = await req.user.populate('tasks')
+        // const tasks = await req.user.populate('tasks')
+        const tasks = await req.user.populate({
+            path: 'tasks',
+            match
+        })
         console.log(tasks.tasks)
 
         res.send(tasks)
