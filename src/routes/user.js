@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router()
 const User = require('../models/User');
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
+const multer = require('multer');
+
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body);
@@ -47,6 +49,14 @@ router.post('/users/logoutAll', auth, async (req, res, next) => {
     }catch(e){
         res.status(500).send()
     }
+})
+
+// upload profile picture
+const upload = multer({
+    dest: 'avatars'
+})
+router.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+    res.send("Profile image uploaded")
 })
 
 router.get('/users', async (req, res) => {

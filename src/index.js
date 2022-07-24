@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require("./models/User");
 const Task = require("./models/Task");
+const multer = require('multer');
 
 
 const app = express();
@@ -93,5 +94,16 @@ const relationship = async () => {
     console.log(taskData.tasks[1]._id)
 
 }
-
 // relationship()
+
+
+// using MULTER to upload file
+// when a file is upload, formdata is return
+const upload = multer({
+    dest: "images"
+});
+
+// define the endpoint to upload image to
+app.post('/upload', upload.single('upload'), (req, res) => {
+    res.send()
+})
