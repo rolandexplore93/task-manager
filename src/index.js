@@ -100,10 +100,25 @@ const relationship = async () => {
 // using MULTER to upload file
 // when a file is upload, formdata is return
 const upload = multer({
-    dest: "images"
+    dest: "images",
+    limits: { fileSize: 2000000},
+    fileFilter(req, file, cb){
+        // pdf file validation
+        // if(!file.originalname.endsWith('.pdf')){
+        //     return cb(new Error('Please upload a PDF file'))
+        // }
+        // cb(undefined, true);
+
+        // word doc/docs validation using regex expression
+        if(!file.originalname.match(/\.(doc|docx)$/)){
+            return cb(new Error('Please upload a word document'))
+        }
+
+        cb(undefined, true)
+    }
 });
 
 // define the endpoint to upload image to
 app.post('/upload', upload.single('upload'), (req, res) => {
-    res.send()
+    res.send("file uploaded!")
 })
