@@ -65,6 +65,8 @@ const upload = multer({
 })
 router.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
     res.send("Profile image uploaded")
+}, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
 })
 
 router.get('/users', async (req, res) => {
