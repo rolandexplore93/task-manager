@@ -4,6 +4,8 @@ const User = require('../models/User');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
+const { welcomeEmail, sendCancelationEmail } = require('../emails/account');
+
 
 
 router.post('/users', async (req, res) => {
@@ -11,6 +13,7 @@ router.post('/users', async (req, res) => {
     
     try {
         await user.save();
+        welcomeEmail(user.email, user.name)
         const token = await user.generateAuthToken()
 
         res.status(201).send({user, token});
@@ -107,6 +110,7 @@ router.delete("/users/me", auth, async (req, res) => {
 
     try {
         await req.user.remove()
+        sendCancelationEmail(req.user.email, req.user.name)
         // const user = await User.findByIdAndDelete(req.params.id);
         // if (!user) return res.status(404).send("User not found!")
         res.send(`User with the data below has been deleted from database \n ${req.user}`)
