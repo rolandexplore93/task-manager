@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 const User = require("./models/User");
 const Task = require("./models/Task");
 const multer = require('multer');
+require('dotenv').config()
+// console.log(process.env)
 
 
 const app = express();
