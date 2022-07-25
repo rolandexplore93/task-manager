@@ -59,11 +59,13 @@ userSchema.virtual('tasks', {
 })
 
 // hide private data when user login
-userSchema.methods.toJSON = async function(){
+userSchema.methods.toJSON = function(){
     const userObject = this.toObject();
-
+    
     delete userObject.password;
     delete userObject.tokens;
+    delete userObject.avatar;
+    // console.log(userObject)
     return userObject
 }
 
