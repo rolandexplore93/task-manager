@@ -8,15 +8,12 @@ const User = require("./models/User");
 const Task = require("./models/Task");
 const multer = require('multer');
 // require('dotenv').config()
-// console.log(process.env)
-
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 
 // app.use((req, res, next) => {
 //     console.log(req.method, req.path)
-
 //     next()
 // })
 
@@ -28,8 +25,8 @@ app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
 
-app.listen(PORT, () =>
-  console.log("Listening to server connection at port:" + PORT)
+app.listen(process.env.PORT || 8080, () =>
+  console.log("Listening to server connection at port: " + (process.env.PORT || 8080))
 );
 
 
