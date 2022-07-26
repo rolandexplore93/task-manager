@@ -12,7 +12,7 @@ const multer = require('multer');
 
 
 const app = express();
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // app.use((req, res, next) => {
 //     console.log(req.method, req.path)
@@ -28,8 +28,8 @@ app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
 
-app.listen(port, () =>
-  console.log("Listening to server connection at port:" + port)
+app.listen(PORT, () =>
+  console.log("Listening to server connection at port:" + PORT)
 );
 
 
