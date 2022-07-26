@@ -12,7 +12,7 @@ const multer = require('multer');
 
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // app.use((req, res, next) => {
 //     console.log(req.method, req.path)
