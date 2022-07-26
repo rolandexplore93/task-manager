@@ -6,8 +6,6 @@ const multer = require('multer');
 const sharp = require('sharp');
 const { welcomeEmail, sendCancelationEmail } = require('../emails/account');
 
-
-
 router.post('/users', async (req, res) => {
     const user = new User(req.body);
     
@@ -110,7 +108,7 @@ router.delete("/users/me", auth, async (req, res) => {
 
     try {
         await req.user.remove()
-        sendCancelationEmail(req.user.email, req.user.name)
+        // sendCancelationEmail(req.user.email, req.user.name)
         // const user = await User.findByIdAndDelete(req.params.id);
         // if (!user) return res.status(404).send("User not found!")
         res.send(`User with the data below has been deleted from database \n ${req.user}`)

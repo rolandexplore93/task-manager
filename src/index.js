@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const User = require("./models/User");
 const Task = require("./models/Task");
 const multer = require('multer');
-require('dotenv').config()
+// require('dotenv').config()
 // console.log(process.env)
 
 
@@ -50,13 +50,13 @@ app.listen(port, () =>
 // JWT - to create authorization and sign in
 const authorization = () => {
     // create jwt token
-    const token = jwt.sign({_id: "1234567"}, "rollyJS", {
+    const token = jwt.sign({_id: "1234567"}, process.env.JWT_SECRET_KEY, {
         expiresIn: "5 seconds"
     });
     console.log(token)
 
     // verify jwt token
-    const isVerified = jwt.verify(token, 'rollyJS')
+    const isVerified = jwt.verify(token, process.env.JWT_SECRET_KEY)
     console.log(isVerified)
 }
 // authorization()

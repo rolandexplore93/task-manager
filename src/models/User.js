@@ -72,7 +72,7 @@ userSchema.methods.toJSON = function(){
 // custom mongoose scheme methods to genrate auth token for user to login
 userSchema.methods.generateAuthToken = async function(){
     const user = this
-    const token = await jwt.sign(user._id.toString(), "rollyJS");
+    const token = await jwt.sign(user._id.toString(), process.env.JWT_SECRET_KEY);
 
     user.tokens = user.tokens.concat({ token })
     await user.save()
