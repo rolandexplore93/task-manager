@@ -4,8 +4,6 @@ const Task = require('../models/Task');
 const auth = require('../middleware/auth');
 
 router.post('/tasks', auth, async (req, res) => {
-    // const task = new Task(req.body);
-
     const task = new Task({
         ...req.body,
         owner: req.user._id
@@ -21,7 +19,6 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 router.get('/tasks', async (req, res) => {
-    
     try {
         const tasks = await Task.find({});
         res.send(tasks)
@@ -42,10 +39,7 @@ router.get('/tasks/me', auth, async (req, res) => {
 
     if(req.query.sortBy){
         const parts = req.query.sortBy.split(':');
-        console.log(parts[0])
-        console.log(parts[1])
         sort[parts[0]] = [parts[1]] === 'desc' ? -1 : 1;
-        //above translate to=> sort[completed] = desc === 'desc' ? -1 : 1;
     }
 
     try {
@@ -61,21 +55,17 @@ router.get('/tasks/me', auth, async (req, res) => {
                 sort
             }
         })
-        console.log(tasks.tasks)
-
+        // console.log(tasks.tasks)
         res.send(tasks)
     } catch(e) {
         res.status(500).send(e)
     }
 })
 
-
-
 router.get('/tasks/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
-        // const task = await Task.findById(_id);  // before auth
         const task = await Task.findOne({ _id, owner: req.user._id })   // after auth
 
         if (!task) {
@@ -99,7 +89,6 @@ router.patch("/tasks/:id", auth, async (req, res) => {
 
     try {
         // const task = await Task.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true, timestamps: true });
-        // const task = await Task.findById(_id);
         const task = await Task.findOne({ _id, owner: req.user._id})
         
         if (!task) return res.status(404).send("Task ID not found!")
@@ -117,7 +106,6 @@ router.delete("/tasks/:id", auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
-        // const task = await Task.findByIdAndDelete(_id);
         const task = await Task.findOneAndDelete({ _id, owner: req.user._id});
 
         if (!task) return res.status(404).send("User not found!")
