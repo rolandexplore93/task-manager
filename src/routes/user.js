@@ -68,21 +68,6 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
-// router.get('/users/:id', async (req, res) => {
-//     const _id = req.params.id;
-
-//     try {
-//         const user = await User.findById(_id)
-//         if (!user) {
-//             res.status(404).send("User ID not found!")
-//             return
-//         }
-//         res.send(user)
-//     } catch(e){
-//         res.status(500).send("Invalid User ID")
-//     }
-// })
-
 router.patch('/users/me', auth, async (req, res) => {
     const _id = req.params.id;
     const allowUpdates = ["name", "age", "email", "password"];
@@ -93,8 +78,7 @@ router.patch('/users/me', auth, async (req, res) => {
 
     try {
         // const user = await User.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true, timestamps: true });
-        // const user = await User.findById(_id);
-        
+
         updates.forEach((update) => req.user[update] = req.body[update]);
         await req.user.save();
         // if (!user) return res.status(404).send("User not found!")
@@ -160,6 +144,5 @@ router.get('/users/:id/avatar', async (req, res) => {
         res.status(400).send({e: "Image not found!"})
     }
 })
-
 
 module.exports = router

@@ -1,4 +1,3 @@
-// require('dotenv').config()
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -11,7 +10,6 @@ const welcomeEmail = (email, name) => {
     html: `<strong>Hey Roland, it's easy to do anywhere, even with Node.js</strong>`,
   };
 
-  //ES6
   sgMail
     .send(msg)
     .then(() => {
@@ -29,7 +27,6 @@ const sendCancelationEmail = (email, name) => {
     html: `<strong>Goodbye ${name}. I hope to see you back soon!</strong>`,
   };
 
-  //ES6
   sgMail
     .send(msg)
     .then(() => {
