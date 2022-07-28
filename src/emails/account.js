@@ -13,7 +13,7 @@ const welcomeEmail = (email, name) => {
   sgMail
     .send(msg)
     .then(() => {
-      console.log("Email sent successfully");
+      // console.log("Email sent successfully");
     })
     .catch((error) => console.error(error));
 };
