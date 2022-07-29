@@ -1,31 +1,12 @@
 const request = require('supertest');
 const assert = require('assert');
-const jwt = require('jsonwebtoken');
-const mongoose = require("mongoose");
 const app = require('../src/app');
 const User = require('../src/models/User');
+const { defaultUser, defaultUserId, wrongUser, setUpDatabase } = require('./fixtures/db');
 
-const defaultUserId = new mongoose.Types.ObjectId()
-// hardcoded to input another user
-const defaultUser = {
-    _id: defaultUserId,
-    name: "Orobola Roland",
-    email: "d@gmail.com",
-    password: '1234567',
-    tokens: [{
-        token: jwt.sign({_id: defaultUserId}, process.env.JWT_SECRET_KEY)
-    }]
-}
 
-const wrongUser = {
-    email: "wrong@gmail.com",
-    password: '1234567'
-}
 
-beforeEach(async ()=>{
-    await User.deleteMany();
-    await new User(defaultUser).save();
-})
+beforeEach(setUpDatabase);
 
 test("Should create a new user", async () => {
     const response = await request(app)
@@ -128,7 +109,7 @@ test('Should update valid user fields', async () => {
         })
         .expect(200)
 
-    // Check tge data to confirm if it has to change to the name you update it to
+    // Check the data to confirm if it has to change to the name you update it to
     const user = await User.findById(defaultUserId)
     expect(user.name).toEqual("Jaguar");
 })
@@ -142,3 +123,5 @@ test('Should not update invalid user fields', async () => {
         })
         .expect(400);
 })
+
+module.exports = defaultUser
