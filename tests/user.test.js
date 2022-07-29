@@ -105,3 +105,40 @@ test('Should not delete account when user is not authorized', async () => {
         .send()
         .expect(401)
 })
+
+test('Should upload avatar image to db', async () => {
+    await request(app)
+        .post('/users/me/avatar')
+        .set('Authorization', `Bearer ${defaultUser.tokens[0].token}`)
+        .attach('avatar', 'tests/fixtures/profile-pic.jpg')
+        .expect(200)
+
+    // compare the binary data of the file we sent we with what we have in the database
+    const user = await User.findById(defaultUserId)
+    expect(user.avatar).toEqual(expect.any(Buffer))
+})
+
+test('Should update valid user fields', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${defaultUser.tokens[0].token}`)
+        .send({
+            name: "Jaguar",
+            age: 25
+        })
+        .expect(200)
+
+    // Check tge data to confirm if it has to change to the name you update it to
+    const user = await User.findById(defaultUserId)
+    expect(user.name).toEqual("Jaguar");
+})
+
+test('Should not update invalid user fields', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${defaultUser.tokens[0].token}`)
+        .send({
+            location: "Nigeria",
+        })
+        .expect(400);
+})
