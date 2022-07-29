@@ -45,7 +45,7 @@ router.get('/tasks/me', auth, async (req, res) => {
     try {
         // const tasks = await Task.find({owner: req.user._id})  // use this or populate() approach below
         // const tasks = await req.user.populate('tasks')
-        const tasks = await req.user.populate({
+        await req.user.populate({
             path: 'tasks',
             match,
             options: {
@@ -55,8 +55,8 @@ router.get('/tasks/me', auth, async (req, res) => {
                 sort
             }
         })
-        // console.log(tasks.tasks)
-        res.send(tasks)
+        // console.log(req.user.tasks)
+        res.send(req.user.tasks)
     } catch(e) {
         res.status(500).send(e)
     }
