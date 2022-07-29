@@ -28,23 +28,40 @@ beforeEach(async ()=>{
 })
 
 test("Should create a new user", async () => {
-    await request(app)
+    const response = await request(app)
         .post('/users')
         .send({
             name: "Roland",
             email: "prowess2rule@gmail.com",
             password: "1234567"
         }).expect(201)
+
+        // Advanced Assertion: Assert that the user data was created correctly
+        const user = await User.findById(response.body.user._id);
+
+        expect(user).not.toBeNull();
+        // Assert that the response body matches our input
+        expect(response.body).toMatchObject({
+            user: {
+                name: "Roland",
+                email: "prowess2rule@gmail.com"
+            },
+            token: user.tokens[0].token
+        });
+        // Assert that the exact password input my user is not stored in the db (pw should have been hashed)
+        expect(user.password).not.toBe("1234567")
 })
 
 test('Should login existing user', async () => {
-    await request(app)
+    const response = await request(app)
         .post('/users/login')
         .send({
             email: defaultUser.email,
             password: defaultUser.password
         })
         .expect(200)
+    const user = await User.findById(defaultUserId)
+    expect(response.body.token).toBe(user.tokens[1].token)
 })
 
 test('Should not login nonexistent user', async () => {
@@ -78,6 +95,8 @@ test('Should delete account for user', async () => {
         .set("Authorization", `Bearer ${defaultUser.tokens[0].token}`)
         .send()
         .expect(200)
+    const user = await User.findById(defaultUserId)
+    expect(user).toBeNull();
 } )
 
 test('Should not delete account when user is not authorized', async () => {
