@@ -1,5 +1,5 @@
 # task-manager
->  Built authenticated endpoints for this task manager app that allow users to create accounts, generate tokens to log in using jwt, upload avatar, and create tasks. Users can also perform other CRUD operations like read, update and delete. 
+> Built authenticated endpoints for this task manager app that allow users to create accounts, generate tokens to log in using jwt, upload avatar, and create tasks. Users can also perform other CRUD operations like read, update and delete. 
 
 ### Deployment for testing 🚀
 > [Heroku](https://roland-task-manager.herokuapp.com)
@@ -37,3 +37,15 @@ The endpoints can be tested on POSTMAN using heroku deployment url above.
 - [x] Delete a user (authenticated route)
 - [x] Delete profile image (authenticated route)
 - [x] Delete a task (authenticated route)
+
+## Author
+👤 **Orobola Roland Ogundipe**
+> I am open to us collaborating together on a project😇
+- GitHub: [@Roland](https://github.com/rolandexplore93)
+- LinkedIn: [@Roland](https://www.linkedin.com/in/roland-orobola/)
+
+## Encouragement
+Give a ⭐️ if you like this project!
+
+## 📝 License
+This project is [MIT](./MIT.md) licensed
