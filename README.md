@@ -42,7 +42,8 @@ The endpoints can be tested on POSTMAN using heroku deployment url above.
 POSTMAN: 
 - Copy the task-manager heroku deployment url to POSTMAN environment
 - Test all endpoints (Endpoints for Users and Tasks are available in the routes folder)
-- When creating a user/task, you need to provide a body (Checkout out User & Task model schema for the necessary requirement)
+- When creating or updating a user/task, you need to provide a body (Checkout out User & Task model schema for the necessary details)
+- You need to be authenticated to perfrom the CRUD operations
 
 ## Author
 👤 **Orobola Roland Ogundipe**
