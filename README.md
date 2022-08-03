@@ -38,6 +38,12 @@ The endpoints can be tested on POSTMAN using heroku deployment url above.
 - [x] Delete profile image (authenticated route)
 - [x] Delete a task (authenticated route)
 
+### Testing guide
+POSTMAN: 
+- Copy the task-manager heroku deployment url to POSTMAN environment
+- Test all endpoints (Endpoints for Users and Tasks are available in the routes folder)
+- When creating a user/task, you need to provide a body (Checkout out User & Task model schema for the necessary requirement)
+
 ## Author
 👤 **Orobola Roland Ogundipe**
 > I am open to us collaborating together on a project😇
