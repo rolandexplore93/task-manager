@@ -16,7 +16,10 @@ The endpoints can be tested on POSTMAN using heroku deployment url above.
 - multer
 - bcrypt
 - jwt
+- @sendgrid/mail
 - nodemon
+- validator
+- jest & supertest
 
 ### Workdone 🔧
 - [x] Create user
