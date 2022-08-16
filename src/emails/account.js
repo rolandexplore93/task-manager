@@ -13,7 +13,6 @@ const welcomeEmail = (email, name) => {
   sgMail
     .send(msg)
     .then(() => {
-      // console.log("Email sent successfully");
     })
     .catch((error) => console.error(error));
 };
@@ -21,7 +20,7 @@ const welcomeEmail = (email, name) => {
 const sendCancelationEmail = (email, name) => {
   const msg = {
     to: email,
-    from: "roland2rule@gmail.com", // Use the email address or domain you verified above
+    from: "roland2rule@gmail.com",
     subject: "Sorry to see you go",
     text: `Goodbye ${name}. I hope to see you back soon!`,
     html: `<strong>Goodbye ${name}. I hope to see you back soon!</strong>`,

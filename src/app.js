@@ -15,6 +15,8 @@ const app = express();
 //     res.status(503).send("Site is currently under maintenance. Please, check back later")
 // })
 
+app.set('view engine', 'ejs')
+
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);

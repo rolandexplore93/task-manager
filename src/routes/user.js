@@ -53,6 +53,10 @@ router.post('/users/logoutAll', auth, async (req, res, next) => {
     }
 })
 
+router.get('/', async (req, res) => {
+    res.render('index')
+});
+
 router.get('/users', async (req, res) => {
 
     try {
@@ -140,7 +144,6 @@ router.get('/users/:id/avatar', async (req, res) => {
         res.send(user.avatar)
 
     }catch(e){
-        console.log(e)
         res.status(400).send({e: "Image not found!"})
     }
 })
