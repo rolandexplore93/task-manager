@@ -3,7 +3,6 @@
 
 ### Deployment for testing 🚀
 > [Heroku](https://roland-task-manager.herokuapp.com)
-[API documentation](https://documenter.getpostman.com/view/19761648/VUjTmPW9)
 
 ### Screenshot 📷
 The endpoints can be tested on POSTMAN using heroku deployment url above. 
